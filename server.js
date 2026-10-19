@@ -31,3 +31,16 @@ app.post('/todo', (req, res) => {
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
+app.put('/todo/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const todo = todos.find(t => t.id === id);
+  if (!todo) return res.status(404).json({ error: 'not found' });
+  todo.text = req.body.text;
+  res.redirect('/');
+});
+
+app.delete('/todo/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  todos = todos.filter(t => t.id !== id);
+  res.redirect('/');
+});
